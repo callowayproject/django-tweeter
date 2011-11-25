@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Register an account</title>
+  </head>
+  <body>
+    <h1>Associate your Twitter account</h1>
+
+    {% if message %}
+      <p>{{ message }}</p>
+    {% endif %}
+
+    {% if user.twitter %}
+        <p>Your Twitter account can be used to log in to this site.</p>
+        <div>
+            <a href="http://twitter.com/{{ user.twitter.screen_name }}"><b>{{ user.twitter.screen_name }}</b></a>
+            <form style="display: none;" id="remove" method="post" action="">
+                <input type="hidden" name="twitter_id" value="{{ user.twitter.twitter_id }}" />
+                <input type="hidden" name="action" value="remove" />
+            </form>
+            {% if user.has_usable_password %}
+                -
+                <a class="remove" href="#" onclick="$('#remove').submit()">remove</a>
+            {% endif %}
+        </div>
+    {% else %}
+        {% if error %}
+            <ul class="errorlist">
+                <li>
+                    {% ifequal error "twitter_already_linked" %}
+                        The {{ error_user }} Twitter account is already linked to another account on this site.
+                        <a href="http://twitter.com/logout">Logout of Twitter?</a>
+                    {% endifequal %}
+                </li>
+            </ul>
+        {% endif %}
+        <p>Associate a Twitter account so you can use it to log in to this site.</p>
+
+        <a href="{% url twitter_signin_associate %}">Sign in to Twitter</a>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,63 @@
+-*- restructuredtext -*-
+
+django-oauth-twitter
+====================
+
+A Django application that lets you associate Twitter accounts with your
+User accounts.
+
+Features include:
+
+* Uses django.contrib.auth.User
+* Lets Twitter users sign in before registering.
+* Optional auto-creation of Users from Twitter screen-names
+* Lets Users link and unlink Twitter accounts.
+
+
+Requirements
+------------
+
+* Python 2.5 or higher
+* oauth - http://pypi.python.org/pypi/oauth/
+* oauth-python-twitter - http://code.google.com/p/oauth-python-twitter/
+* python-twitter - http://pypi.python.org/pypi/python-twitter/
+* simplejson - http://pypi.python.org/pypi/simplejson/
+
+
+Quick start
+-----------
+
+1. Get a Twitter OAuth Client from http://twitter.com/oauth_clients.
+
+2. Add your ``TWITTER_CONSUMER_KEY`` and ``TWITTER_SECRET_KEY`` to 
+   ``settings.py``.
+
+3. Add ``django_oauth_twitter`` to ``settings.INSTALLED_APPS``.
+
+4. Add ``django_oauth_twitter.context_processors.twitter_userinfo`` to
+   ``settings.TEMPLATE_CONTEXT_PROCESSORS``.
+
+5. Add ``django_oauth_twitter.middleware.SessionMiddleware`` to
+   ``settings.MIDDLEWARE_CLASSES`` after your ``AuthenticationMiddleware``.
+
+6. Add the following to your ``urls.py``::
+
+     from django_oauth_twitter.views import OAuthTwitter
+     oauthtwitter = OAuthTwitter()
+     urlpatterns += patterns('',
+         (r'^twitter/', include(oauthtwitter.urls))
+     )
+
+7. Add a link to ``{% url twitter_signin %}`` from your
+   ``settings.LOGIN_URL`` page.
+   (See http://apiwiki.twitter.com/Sign-in-with-Twitter for some nice
+   buttons.)
+
+8. Try it out!
+
+
+Contribute
+----------
+
+Please submit all bugs and patches to:
+  http://bitbucket.org/akoha/django-oauth-twitter/
